@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var listToArray = require('list-to-array');
-var escapeValueForExcel = require('../security/escapeValueForExcel');
 
 /**
  * Applies option field transforms to get the CSV value for a field
@@ -109,11 +108,6 @@ function getCSVData (item, options) {
 		} else {
 			rtn[prop] = value;
 		}
-	});
-
-	// Prevent CSV macro injection
-	_.forOwn(rtn, (value, prop) => {
-		rtn[prop] = escapeValueForExcel(value);
 	});
 
 	return rtn;

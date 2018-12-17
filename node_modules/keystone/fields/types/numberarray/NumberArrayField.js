@@ -10,8 +10,8 @@ module.exports = Field.create({
 
 	mixins: [ArrayFieldMixin],
 
-	isValid (input) {
-		return /^-?\d*\.?\d*$/.test(input);
+	cleanInput (input) {
+		return input.replace(/[^\d]/g, '');
 	},
 
 });

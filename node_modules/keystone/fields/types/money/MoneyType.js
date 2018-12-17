@@ -9,9 +9,7 @@ var util = require('util');
  * @api public
  */
 function money (list, path, options) {
-	if (options.currency) {
-		throw new Error('The currency option from money has been deprecated. Provide a formatString instead');
-	}
+	this.currency = options.currency;
 	this._nativeType = Number;
 	this._underscoreMethods = ['format'];
 	this._properties = ['currency'];
@@ -38,6 +36,14 @@ money.prototype.addFilterToQuery = NumberType.prototype.addFilterToQuery;
  * Formats the field value
  */
 money.prototype.format = function (item, format) {
+	if (this.currency) {
+		try {
+			numeral.language(this.currency, require('numeral/languages/' + this.currency));
+			numeral.language(this.currency);
+		} catch (err) {
+			throw new Error('FieldType.Money: options.currency failed to load.');
+		}
+	}
 	if (format || this._formatString) {
 		return (typeof item.get(this.path) === 'number') ? numeral(item.get(this.path)).format(format || this._formatString) : '';
 	} else {

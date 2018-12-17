@@ -109,15 +109,6 @@ var renderMarkdown = function (component) {
 	$(component.refs.markdownTextarea).markdown(options);
 };
 
-// Simple escaping of html tags and replacing newlines for displaying the raw markdown string within an html doc
-var escapeHtmlForRender = function (html) {
-	return html
-		.replace(/\&/g, '&amp;')
-		.replace(/\</g, '&lt;')
-		.replace(/\>/g, '&gt;')
-		.replace(/\n/g, '<br />');
-};
-
 module.exports = Field.create({
 	displayName: 'MarkdownField',
 	statics: {
@@ -168,11 +159,15 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		// We want to render the raw markdown string, without parsing it to html
-		// The markdown string *itself* may include html though so we need to escape it first
-		const innerHtml = (this.props.value && this.props.value.md)
-			? escapeHtmlForRender(this.props.value.md)
-			: '';
+		// TODO: victoriafrench - is this the correct way to do this? the object
+		// should be creating a default md where one does not exist imo.
+
+		const innerHtml = (
+			this.props.value !== undefined
+			&& this.props.value.md !== undefined
+		)
+		? this.props.value.md.replace(/\n/g, '<br />')
+		: '';
 
 		return (
 			<FormInput

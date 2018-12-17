@@ -1,8 +1,7 @@
 var FieldType = require('../Type');
 var marked = require('marked');
-var sanitizeHtml = require('sanitize-html');
-var TextType = require('../text/TextType');
 var util = require('util');
+var TextType = require('../text/TextType');
 var utils = require('keystone-utils');
 
 /**
@@ -15,11 +14,6 @@ function markdown (list, path, options) {
 
 	this.toolbarOptions = options.toolbarOptions || {};
 	this.markedOptions = options.markedOptions || {};
-
-	// See sanitize-html docs for defaults
-	// .. https://www.npmjs.com/package/sanitize-html#what-are-the-default-options
-	this.sanitizeOptions = options.sanitizeOptions || {};
-
 	this.height = options.height || 90;
 	this.wysiwyg = ('wysiwyg' in options) ? options.wysiwyg : true;
 
@@ -48,29 +42,18 @@ markdown.prototype.addToSchema = function (schema) {
 	};
 
 	var markedOptions = this.markedOptions;
-	var sanitizeOptions = this.sanitizeOptions;
 
 	var setMarkdown = function (value) {
-		// Clear if saving invalid value
-		if (typeof value !== 'string') {
-			this.set(paths.md, undefined);
+		if (value === this.get(paths.md)) {
+			return value;
+		}
+		if (typeof value === 'string') {
+			this.set(paths.html, marked(value, markedOptions));
+			return value;
+		} else {
 			this.set(paths.html, undefined);
-
 			return undefined;
 		}
-
-		var newMd = sanitizeHtml(value, sanitizeOptions);
-		var newHtml = marked(newMd, markedOptions);
-
-		// Return early if no changes to save
-		if (newMd === this.get(paths.md) && newHtml === this.get(paths.html)) {
-			return newMd;
-		}
-
-		this.set(paths.md, newMd);
-		this.set(paths.html, newHtml);
-
-		return newMd;
 	};
 
 	schema.nested[this.path] = true;

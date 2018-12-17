@@ -59,9 +59,7 @@ module.exports = {
 		var updatedValues = this.state.values;
 		var updateIndex = updatedValues.indexOf(i);
 		var newValue = event.value || event.target.value;
-		if (this.isValid === undefined || this.isValid(newValue)) {
-			updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(newValue) : newValue;
-		}
+		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(newValue) : newValue;
 		this.setState({
 			values: updatedValues,
 		});

@@ -48,7 +48,7 @@ function paginate (options, callback) {
 
 	query.exec = function (callback) {
 		countQuery.count(function (err, count) {
-			if (err) return callback(err);
+			if (err) callback(err);
 
 			query.find().limit(resultsPerPage).skip(skip);
 

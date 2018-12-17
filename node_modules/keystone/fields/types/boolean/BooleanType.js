@@ -36,9 +36,7 @@ boolean.prototype.validateInput = function (data, callback) {
 
 boolean.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	var result = value && value !== 'false'
-			? true
-			: false;
+	var result = (value && value !== 'false') || item.get(this.path) ? true : false;
 	utils.defer(callback, result);
 };
 

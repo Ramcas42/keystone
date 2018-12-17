@@ -1,7 +1,6 @@
 var bodyParser = require('body-parser');
 var express = require('express');
-
-var uploads = require('../../../lib/uploads');
+var multer = require('multer');
 
 module.exports = function createDynamicRouter (keystone) {
 	// ensure keystone nav has been initialised
@@ -18,7 +17,7 @@ module.exports = function createDynamicRouter (keystone) {
 	// Use bodyParser and multer to parse request bodies and file uploads
 	router.use(bodyParser.json({}));
 	router.use(bodyParser.urlencoded({ extended: true }));
-	uploads.configure(router);
+	router.use(multer({ includeEmptyFields: true }));
 
 	// Bind the request to the keystone instance
 	router.use(function (req, res, next) {
