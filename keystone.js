@@ -11,5 +11,6 @@ keystone.init({
 
 });
 
+keystone.set('routes', require('./routes'));
 keystone.import("models");
 keystone.start();
