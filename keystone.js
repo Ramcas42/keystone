@@ -6,6 +6,8 @@ keystone.init({
   "user model": "User",
   "auto update": "true",
   "auth": true,
+  views: "templates/views",
+  "view engine": "pug",
 
 });
 
