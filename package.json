@@ -1,0 +1,22 @@
+{
+  "name": "keystone-mestiza",
+  "version": "1.0.0",
+  "description": "",
+  "main": "keystone.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RamsesCastillo42/keystone-mestiza.git"
+  },
+  "author": "Ramses Castillo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RamsesCastillo42/keystone-mestiza/issues"
+  },
+  "homepage": "https://github.com/RamsesCastillo42/keystone-mestiza#readme",
+  "dependencies": {
+    "keystone": "^4.0.0"
+  }
+}
